@@ -13,6 +13,7 @@
 
 ## 기술 스택
 
+- Node.js 24.x
 - React 19
 - TypeScript
 - Vite
