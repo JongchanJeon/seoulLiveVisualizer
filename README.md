@@ -100,6 +100,12 @@ DATABASE_URL=mariadb+pymysql://사용자명:비밀번호@localhost:3306/seoul_ci
 python run.py
 ```
 
+개발 서버로 직접 실행하는 경우:
+
+```bash
+uvicorn app.main:app --reload
+```
+
 기본 실행 주소:
 
 ```text
