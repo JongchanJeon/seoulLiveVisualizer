@@ -16,7 +16,7 @@
 - FastAPI
 - Uvicorn
 - SQLAlchemy
-- MariaDB / MySQL
+- MariaDB
 - PyMySQL
 - HTTPX
 
@@ -30,7 +30,7 @@ backend/
 │   ├── main.py         # FastAPI 앱과 API 라우터
 │   ├── models.py       # DB 모델 정의
 │   └── scheduler.py    # 서울시 OpenAPI 수집 및 동기화 로직
-├── schema.sql          # MariaDB/MySQL 스키마
+├── schema.sql          # MariaDB 테이블 스키마
 ├── requirements.txt    # Python 의존성
 ├── run.py              # 서버 실행 진입점
 ├── .gitignore
@@ -40,7 +40,7 @@ backend/
 ## 사전 준비
 
 - Python 3.8 이상
-- MariaDB 또는 MySQL
+- MariaDB
 - 서울 열린데이터광장 OpenAPI 인증키
 
 ## 설치
@@ -76,10 +76,14 @@ PORT=8000
 
 ## 데이터베이스 초기화
 
-`schema.sql`은 `seoul_city_data` 데이터베이스와 필요한 테이블을 생성합니다.
+이 프로젝트는 MariaDB를 사용해야 합니다. `seoul_city_data` 데이터베이스는 먼저 별도로 생성한 뒤, `schema.sql`로 필요한 테이블을 생성합니다.
+
+```sql
+CREATE DATABASE seoul_city_data CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
 
 ```bash
-mysql -u root -p < schema.sql
+mysql -u root -p seoul_city_data < schema.sql
 ```
 
 `DATABASE_URL`에 사용하는 계정과 비밀번호는 로컬 DB 설정에 맞게 변경하세요.
