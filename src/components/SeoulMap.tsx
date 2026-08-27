@@ -14,6 +14,24 @@ interface SeoulMapProps {
 }
 
 const mapCenter: [number, number] = [37.5665, 126.978];
+const cartoBasemapKey = import.meta.env.VITE_CARTO_BASEMAP_KEY?.trim();
+const basemap = cartoBasemapKey
+  ? {
+      url: `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(cartoBasemapKey)}`,
+      options: {
+        maxZoom: 20,
+        subdomains: "abcd",
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      },
+    }
+  : {
+      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      options: {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      },
+    };
 
 const MAP_VISUALS = {
   regionFill: "#C8EEF4",
@@ -66,13 +84,11 @@ export function SeoulMap({ places, selectedMetric, cutoffValue, selectedPlaceId,
       center: mapCenter,
       zoom: 11,
       zoomControl: false,
-      attributionControl: false,
+      attributionControl: true,
     });
 
     L.control.zoom({ position: "bottomright" }).addTo(mapInstanceRef.current);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-      maxZoom: 20,
-    }).addTo(mapInstanceRef.current);
+    L.tileLayer(basemap.url, basemap.options).addTo(mapInstanceRef.current);
 
     mapInstanceRef.current.createPane("seoulFloorPane");
     mapInstanceRef.current.getPane("seoulFloorPane")!.style.zIndex = "330";
